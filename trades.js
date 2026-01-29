@@ -373,6 +373,56 @@ setupImageModal() {
         this.renderTable();
         this.updateStats();
     }
-
+  clearFilters() {
+        const elements = ['filterAsset', 'filterStatus', 'filterType', 'filterDateFrom', 'filterDateTo'];
+        elements.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) element.value = 'all' || '';
+        });
+        this.loadTrades();
+    }
+    populateFilters() {
+        const assets = StorageManager.getUniqueAssets();
+        const assetSelect = document.getElementById('filterAsset');
+        if (assetSelect) {
+            assets.forEach(asset => {
+                const option = document.createElement('option');
+                option.value = asset;
+                option.textContent = asset;
+                assetSelect.appendChild(option);
+            });
+        }
+    }
+    editTrade(tradeId) {
+        window.location.href = `add-trade.html?edit=${tradeId}`;
+    }
+    deleteTrade(tradeId) {
+        if (confirm('Are you sure you want to delete this trade?')) {
+            StorageManager.deleteTrade(tradeId);
+            this.loadTrades();
+            StorageManager.showNotification('Trade deleted successfully!', 'success');
+        }
+    }
+exportToCSV() {
+    if (this.filteredTrades.length === 0) {
+        StorageManager.showNotification('No trades to export', 'error');
+        return;
+    }
+    const exportBtn = document.getElementById('exportPDF');
+    const originalText = exportBtn.innerHTML;
+    exportBtn.innerHTML = '<span class="icon icon-spinner"></span> Generating CSV...';
+    exportBtn.disabled = true;
+    try {
+        StorageManager.exportToCSV(this.filteredTrades);
+    } catch (error) {
+        console.error('CSV export error:', error);
+        StorageManager.showNotification('Error generating CSV: ' + error.message, 'error');
+    } finally {
+        setTimeout(() => {
+            exportBtn.innerHTML = '<span class="icon icon-file-pdf"></span> Export CSV';
+            exportBtn.disabled = false;
+        }, 500);
+    }
 }
 
+}
