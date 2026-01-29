@@ -214,6 +214,81 @@ setupEventListeners() {
         }
     });
 }
-    
+     setupClickListener(id, handler) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.addEventListener('click', handler);
+        }
+    }
+    viewTradeImages(tradeId) {
+        const trade = StorageManager.getTradeById(tradeId);
+        if (!trade || !trade.screenshots || trade.screenshots.length === 0) {
+            StorageManager.showNotification('No screenshots available for this trade', 'error');
+            return;
+        }
+        this.createImageModal(trade);
+    }
+    createImageModal(trade) {
+        const existingModal = document.getElementById('imageModal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+        const modal = document.createElement('div');
+        modal.id = 'imageModal';
+        modal.className = 'image-modal';
+        let imagesHTML = '';
+        trade.screenshots.forEach((screenshot, index) => {
+            imagesHTML += `
+                <div class="modal-image-item">
+                    <img src="${screenshot.data}" alt="Trade Screenshot ${index + 1}">
+                    <div class="image-info">
+                        <span class="image-index">Screenshot ${index + 1} of ${trade.screenshots.length}</span>
+                        ${screenshot.name ? `<span class="image-name">${screenshot.name}</span>` : ''}
+                    </div>
+                </div>
+            `;
+        });
+        let notesHTML = '';
+        if (trade.screenshotNotes) {
+            notesHTML = `
+                <div class="image-notes">
+                    <h4><i class="fas fa-sticky-note"></i> Screenshot Notes</h4>
+                    <p>${trade.screenshotNotes}</p>
+                </div>
+            `;
+        }
+        modal.innerHTML = `
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>
+                        <i class="fas fa-camera"></i>
+                        Screenshots for ${trade.asset} Trade
+                        <small>${new Date(trade.date).toLocaleDateString()}</small>
+                    </h3>
+                    <button class="modal-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="image-gallery">
+                        ${imagesHTML}
+                    </div>
+                    ${notesHTML}
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary modal-prev">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <div class="image-counter">1 / ${trade.screenshots.length}</div>
+                    <button class="btn btn-secondary modal-next">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        this.setupImageModal();
+    }
 }
 
