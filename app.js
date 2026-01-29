@@ -129,4 +129,111 @@ class TradingApp {
         this.updateElement('riskScore', riskScore);
         this.updateElement('psychologyScore', psychologyScore);
     }
+     setupEventListeners() {
+        const chartPeriod = document.getElementById('chartPeriod');
+        if (chartPeriod) {
+            chartPeriod.addEventListener('change', () => {
+                this.setupCharts();
+            });
+        }
+    }
+    setupCharts() {
+        const ctx = document.getElementById('performanceChart');
+        if (!ctx) return;
+        if (ctx.chart) {
+            ctx.chart.destroy();
+        }
+        const chartPeriod = document.getElementById('chartPeriod');
+        const period = chartPeriod ? chartPeriod.value : '1M';
+        const chartData = this.getChartDataForPeriod(period);
+        if (!chartData || chartData.dates.length === 0) {
+            return;
+        }
+        try {
+            ctx.chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chartData.dates,
+                    datasets: [{
+                        label: 'Portfolio Value',
+                        data: chartData.values,
+                        backgroundColor: 'transparent',
+                        borderColor: 'rgb(76, 201, 240)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        pointHoverRadius: 4,
+                        fill: false,
+                        tension: 0.4,
+                        segment: {
+                            borderColor: ctx => {
+                                const index = ctx.p1DataIndex;
+                                const values = chartData.values;
+                                if (index > 0 && values[index] < values[index - 1]) {
+                                    return 'rgb(247, 37, 133)'; 
+                                }
+                                return 'rgb(76, 201, 240)'; 
+                            }
+                        }
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: 'var(--text-muted)',
+                                font: {
+                                    size: 11
+                                },
+                                maxRotation: 0
+                            }
+                        },
+                        y: {
+                            display: true,
+                            position: 'right',
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: 'var(--text-muted)',
+                                font: {
+                                    size: 11
+                                },
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    elements: {
+                        line: {
+                            cubicInterpolationMode: 'monotone'
+                        }
+                    },
+                    animation: {
+                        duration: 750,
+                        easing: 'easeOutQuart'
+                    }
+                }
+            });
+        } catch (error) {
+            console.error('Error creating chart:', error);
+        }
+    }
 }
