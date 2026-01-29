@@ -209,4 +209,108 @@ setupTheme() {
             });
         });
     }
+     removeScreenshot(index) {
+        this.screenshots.splice(index, 1);
+        this.renderScreenshots();
+    }
+    setupLiveCalculations() {
+        this.calculateProfit();
+    } 
+    calculateProfit() {
+        const entryPrice = parseFloat(document.getElementById('entryPrice').value) || 0;
+        const exitPrice = parseFloat(document.getElementById('exitPrice').value) || 0;
+        const quantity = parseFloat(document.getElementById('quantity').value) || 0;
+        const fees = parseFloat(document.getElementById('fees').value) || 0;
+        const tradeType = document.getElementById('tradeType').value;
+        if (!entryPrice || !exitPrice || !quantity || !tradeType) {
+            return;
+        }
+        const priceDifference = exitPrice - entryPrice;
+        const direction = tradeType === 'long' ? 1 : -1;
+        const grossProfit = priceDifference * direction * quantity;
+        const netProfit = grossProfit - fees;
+        const investment = entryPrice * quantity;
+        const roi = investment > 0 ? (netProfit / investment) * 100 : 0;
+        let riskReward = '-';
+        const stopLoss = parseFloat(document.getElementById('stopLoss').value);
+        const takeProfit = parseFloat(document.getElementById('takeProfit').value);
+        
+        if (stopLoss && takeProfit) {
+            const risk = Math.abs(entryPrice - stopLoss);
+            const reward = Math.abs(takeProfit - entryPrice);
+            if (risk > 0) {
+                riskReward = `1:${(reward / risk).toFixed(2)}`;
+            }
+        }
+        const profitElement = document.getElementById('profitPreview');
+        if (profitElement) {
+            profitElement.textContent = netProfit >= 0 ? `+$${netProfit.toFixed(2)}` : `-$${Math.abs(netProfit).toFixed(2)}`;
+            profitElement.className = `profit-value ${netProfit >= 0 ? 'positive' : 'negative'}`;
+        }
+        this.updateElement('riskRewardRatio', riskReward);
+        this.updateElement('roi', `${roi.toFixed(2)}%`, roi >= 0 ? 'positive' : 'negative');
+    }
+    updateElement(id, value, className = '') {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = value;
+            if (className) {
+                element.className = className;
+            }
+        }
+    }
+    validateForm() {
+        let isValid = true;
+        const requiredFields = ['tradeDate', 'asset', 'tradeType', 'quantity', 'entryPrice', 'exitPrice'];
+        
+        requiredFields.forEach(field => {
+            const input = document.getElementById(field);
+            const errorElement = document.getElementById(`${field}Error`);
+            
+            if (!input || !input.value.trim()) {
+                isValid = false;
+                if (input) input.classList.add('error');
+                if (errorElement) {
+                    errorElement.textContent = 'This field is required';
+                }
+            } else {
+                if (input) input.classList.remove('error');
+                if (errorElement) {
+                    errorElement.textContent = '';
+                }
+            }
+        });
+        const quantity = document.getElementById('quantity');
+        if (quantity && quantity.value <= 0) {
+            isValid = false;
+            quantity.classList.add('error');
+            const errorElement = document.getElementById('quantityError');
+            if (errorElement) {
+                errorElement.textContent = 'Quantity must be greater than 0';
+            }
+        }
+        const entryPrice = document.getElementById('entryPrice');
+        const exitPrice = document.getElementById('exitPrice');
+        if (entryPrice && exitPrice && entryPrice.value && exitPrice.value) {
+            const entry = parseFloat(entryPrice.value);
+            const exit = parseFloat(exitPrice.value);   
+            if (entry <= 0) {
+                isValid = false;
+                entryPrice.classList.add('error');
+                const errorElement = document.getElementById('entryError');
+                if (errorElement) {
+                    errorElement.textContent = 'Entry price must be greater than 0';
+                }
+            }
+            if (exit <= 0) {
+                isValid = false;
+                exitPrice.classList.add('error');
+                const errorElement = document.getElementById('exitError');
+                if (errorElement) {
+                    errorElement.textContent = 'Exit price must be greater than 0';
+                }
+            }
+        }
+        return isValid;
+    }
 }
