@@ -1490,7 +1490,7 @@ chart-card {
     .footer-actions .btn {
         flex: 1;
         min-width: 140px;
-    }}
+    }
     .filter-grid {
         grid-template-columns: 1fr;
         gap: var(--space-lg);
@@ -1559,6 +1559,7 @@ chart-card {
     .stat-content {
         width: 100%;
     }
+}
     @media (max-width: 480px) {
     .date-range {
         grid-template-columns: 1fr;
