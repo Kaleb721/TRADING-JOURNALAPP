@@ -1017,3 +1017,98 @@ chart-card {
     text-align: right;
     margin-top: var(--space-md);
 }
+.table-card {
+    margin-bottom: var(--space-xl);
+}
+.table-header {
+    padding: var(--space-lg);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+}
+.table-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    flex-wrap: wrap;
+}
+.trade-count {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+.table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+}
+.table-container table {
+    width: 100%;
+    min-width: 900px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.table-container th,
+.table-container td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+.table-container th:nth-child(1),
+.table-container td:nth-child(1) { 
+    width: 110px;
+    min-width: 110px;
+    max-width: 110px;
+}
+.table-container th:nth-child(2),
+.table-container td:nth-child(2) { 
+    width: 90px;
+    min-width: 90px;
+    max-width: 90px;
+}
+.table-container th:nth-child(3),
+.table-container td:nth-child(3) { 
+    width: 70px;
+    min-width: 70px;
+    max-width: 70px;
+}
+.table-container th:nth-child(4),
+.table-container td:nth-child(4) { 
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+}
+.table-container th:nth-child(5),
+.table-container td:nth-child(5) { 
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+}
+.table-container th:nth-child(6),
+.table-container td:nth-child(6) { 
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+}
+.table-container th:nth-child(7),
+.table-container td:nth-child(7) { 
+    width: 110px;
+    min-width: 110px;
+    max-width: 110px;
+}
+.table-container th:nth-child(8),
+.table-container td:nth-child(8) { 
+    width: 80px;
+    min-width: 80px;
+    max-width: 80px;
+}
+.table-container th:nth-child(9),
+.table-container td:nth-child(9) { 
+    width: 180px;
+    min-width: 180px;
+    max-width: 180px;
+}
