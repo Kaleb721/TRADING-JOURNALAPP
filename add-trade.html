@@ -212,3 +212,36 @@
                         <textarea id="notes" name="notes" rows="3" placeholder="What worked well? What would you do differently next time?"></textarea>
                     </div>
                 </div>
+                 <div class="form-section">
+                    <div class="section-header">
+                        <span class="icon icon-chart-line"></span>
+                        <h2>Profit/Loss Preview</h2>
+                    </div>
+                    <div class="profit-preview">
+                        <div class="profit-result">
+                            <div class="profit-label">Estimated P&L</div>
+                            <div class="profit-value" id="profitPreview">$0.00</div>
+                        </div>
+                        <div class="profit-details">
+                            <div class="profit-detail">
+                                <span>Risk/Reward Ratio:</span>
+                                <span id="riskRewardRatio">-</span>
+                            </div>
+                            <div class="profit-detail">
+                                <span>Return on Investment:</span>
+                                <span id="roi">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span class="icon icon-check-circle"></span> Save Trade
+                    </button>
+                    <button type="reset" class="btn btn-outline">
+                        <span class="icon icon-times"></span> Clear Form
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
