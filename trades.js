@@ -424,5 +424,39 @@ exportToCSV() {
         }, 500);
     }
 }
-
+setupBackupRestore() {
+        const backupBtn = document.getElementById('backupData');
+        if (backupBtn) {
+            backupBtn.addEventListener('click', () => {
+                StorageManager.backupToFile();
+            });
+        }
+        const restoreBtn = document.getElementById('restoreData');
+        if (restoreBtn) {
+            restoreBtn.addEventListener('click', () => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.json';
+                input.onchange = (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        StorageManager.restoreFromFile(file)
+                            .then(() => {
+                                StorageManager.showNotification('Data restored successfully!', 'success');
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 1500);
+                            })
+                            .catch(() => {
+                                StorageManager.showNotification('Invalid backup file', 'error');
+                            });
+                    }
+                };
+                input.click();
+            });
+        }
+    }
 }
+document.addEventListener('DOMContentLoaded', function() {
+    window.tradesPage = new TradesPage();
+});
