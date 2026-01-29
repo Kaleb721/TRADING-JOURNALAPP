@@ -138,5 +138,51 @@ const StorageManager = {
         }
         
         return false;
-    }
+    },   deleteTrade: function(id) {
+        const trades = this.getTrades();
+        const filteredTrades = trades.filter(t => t.id !== id);
+        if (filteredTrades.length !== trades.length) {
+            this.saveTrades(filteredTrades);
+            return true;
+        }
+        return false;
+    },
+    calculateProfit: function(trade) {
+        const priceDifference = trade.exitPrice - trade.entryPrice;
+        const direction = trade.type === 'long' ? 1 : -1;
+        const profit = (priceDifference * direction * trade.quantity) - (trade.fees || 0);
+        return Math.round(profit * 100) / 100;
+    },
+    calculateTotalProfitLoss: function() {
+        const trades = this.getTrades();
+        return trades.reduce((total, trade) => total + this.calculateProfit(trade), 0);
+    },
+    calculateWinRate: function() {
+        const trades = this.getTrades();
+        if (trades.length === 0) return 0;
+        const winningTrades = trades.filter(trade => this.calculateProfit(trade) > 0);
+        return Math.round((winningTrades.length / trades.length) * 100);
+    },
+    calculateAvgRiskReward: function() {
+        const trades = this.getTrades();
+        const validTrades = trades.filter(t => t.stopLoss && t.takeProfit);
+        if (validTrades.length === 0) return 0;
+        const totalRatio = validTrades.reduce((sum, trade) => {
+            const risk = Math.abs(trade.entryPrice - trade.stopLoss);
+            const reward = Math.abs(trade.takeProfit - trade.entryPrice);
+            return sum + (reward / risk);
+        }, 0);  
+        return Math.round((totalRatio / validTrades.length) * 100) / 100;
+    },
+    getRecentTrades: function(limit = 5) {
+        const trades = this.getTrades();
+        return trades
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .slice(0, limit);
+    },
+    getUniqueAssets: function() {
+        const trades = this.getTrades();
+        const assets = [...new Set(trades.map(t => t.asset))];
+        return assets.sort();
+    },
 }
