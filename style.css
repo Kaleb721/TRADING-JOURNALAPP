@@ -1277,3 +1277,82 @@ chart-card {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.footer {
+    background: var(--bg-card);
+    padding: var(--space-xl) 0;
+    margin-top: var(--space-2xl);
+    border-top: 1px solid var(--border-color);
+}
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xl);
+    flex-wrap: wrap;
+    gap: var(--space-xl);
+}
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-shrink: 0;
+}
+.footer-logo {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+.footer-info h3 {
+    margin: 0 0 var(--space-xs);
+    font-size: 1.25rem;
+}
+.footer-info p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+.footer-actions {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+.footer-bottom {
+    text-align: center;
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--border-color);
+}
+.footer-bottom p {
+    margin-bottom: var(--space-md);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md) var(--space-lg);
+    box-shadow: var(--shadow-xl);
+    border-left: 4px solid var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    z-index: 9999;
+    animation: slideInRight 0.3s ease;
+    max-width: 400px;
+}
+.notification.success {
+    border-left-color: var(--success-color);
+}
+.notification.error {
+    border-left-color: var(--danger-color);
+}
+.notification .icon {
+    font-size: 1.25rem;
+}
+.notification.success .icon {
+    color: var(--success-color);
+}
+.notification.error .icon {
+    color: var(--danger-color);
+}
