@@ -67,5 +67,76 @@ const StorageManager = {
             this.saveAllData(sampleData);
         }
         
+    },
+     getAllData: function() {
+        const data = localStorage.getItem('tradingJournalData');
+        return data ? JSON.parse(data) : { trades: [], settings: {} };
+    },
+    saveAllData: function(data) {
+        localStorage.setItem('tradingJournalData', JSON.stringify(data));
+    },
+    getTrades: function() {
+        const data = this.getAllData();
+        return data.trades || [];
+    },
+    getTradeById: function(id) {
+        const trades = this.getTrades();
+        return trades.find(trade => trade.id === id);
+    },
+    saveTrades: function(trades) {
+        const data = this.getAllData();
+        data.trades = trades;
+        this.saveAllData(data);
+    },
+    addTrade: function(trade) {
+        const trades = this.getTrades();
+        const newId = trades.length > 0 ? Math.max(...trades.map(t => t.id)) + 1 : 1;
+        const newTrade = {
+            id: newId,
+            date: trade.date,
+            asset: trade.asset,
+            type: trade.type,
+            entryPrice: parseFloat(trade.entryPrice),
+            exitPrice: parseFloat(trade.exitPrice),
+            quantity: parseFloat(trade.quantity),
+            fees: parseFloat(trade.fees) || 0,
+            stopLoss: trade.stopLoss ? parseFloat(trade.stopLoss) : null,
+            takeProfit: trade.takeProfit ? parseFloat(trade.takeProfit) : null,
+            strategy: trade.strategy || null,
+            emotion: trade.emotion || null,
+            setup: trade.setup || '',
+            notes: trade.notes || '',
+            screenshots: trade.screenshots || [],
+            screenshotNotes: trade.screenshotNotes || '',
+            createdAt: new Date().toISOString()
+        };
+        trades.push(newTrade);
+        this.saveTrades(trades);
+        return newTrade;
+    },
+    updateTrade: function(id, updatedTrade) {
+        const trades = this.getTrades();
+        const index = trades.findIndex(t => t.id === id);
+        
+        if (index !== -1) {
+            trades[index] = {
+                ...trades[index],
+                ...updatedTrade,
+                entryPrice: parseFloat(updatedTrade.entryPrice),
+                exitPrice: parseFloat(updatedTrade.exitPrice),
+                quantity: parseFloat(updatedTrade.quantity),
+                fees: parseFloat(updatedTrade.fees) || 0,
+                stopLoss: updatedTrade.stopLoss ? parseFloat(updatedTrade.stopLoss) : null,
+                takeProfit: updatedTrade.takeProfit ? parseFloat(updatedTrade.takeProfit) : null,
+                screenshots: updatedTrade.screenshots || trades[index].screenshots,
+                screenshotNotes: updatedTrade.screenshotNotes || trades[index].screenshotNotes,
+                updatedAt: new Date().toISOString()
+            };
+            
+            this.saveTrades(trades);
+            return true;
+        }
+        
+        return false;
     }
 }
