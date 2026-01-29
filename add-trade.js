@@ -313,4 +313,53 @@ setupTheme() {
         }
         return isValid;
     }
+     handleSubmit(e) {
+        e.preventDefault();
+        if (!this.validateForm()) {
+            StorageManager.showNotification('Please fill in all required fields correctly.', 'error');
+            return;
+        }
+        const trade = {
+            date: document.getElementById('tradeDate').value,
+            asset: document.getElementById('asset').value.toUpperCase(),
+            type: document.getElementById('tradeType').value,
+            entryPrice: parseFloat(document.getElementById('entryPrice').value),
+            exitPrice: parseFloat(document.getElementById('exitPrice').value),
+            quantity: parseFloat(document.getElementById('quantity').value),
+            fees: parseFloat(document.getElementById('fees').value) || 0,
+            stopLoss: document.getElementById('stopLoss').value ? parseFloat(document.getElementById('stopLoss').value) : null,
+            takeProfit: document.getElementById('takeProfit').value ? parseFloat(document.getElementById('takeProfit').value) : null,
+            strategy: document.getElementById('strategy').value || null,
+            emotion: document.getElementById('emotion').value || null,
+            setup: document.getElementById('setup').value || '',
+            notes: document.getElementById('notes').value || '',
+            screenshots: this.screenshots,
+            screenshotNotes: document.getElementById('screenshotNotes').value || ''
+        };
+        if (this.isEditMode) {
+            const tradeId = document.getElementById('tradeId').value;
+            StorageManager.updateTrade(parseInt(tradeId), trade);
+            StorageManager.showNotification('Trade updated successfully!', 'success');
+            setTimeout(() => {
+                window.location.href = 'trades.html';
+            }, 1500);
+        } else {
+            StorageManager.addTrade(trade);
+            const successMessage = document.getElementById('successMessage');
+            if (successMessage) {
+                successMessage.style.display = 'flex';
+            }
+            StorageManager.showNotification('Trade saved successfully!', 'success');
+            document.getElementById('tradeForm').reset();
+            this.screenshots = [];
+            this.renderScreenshots();
+            this.setDefaultDate();
+            this.calculateProfit();
+            if (successMessage) {
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            }
+        }
+    }
 }
