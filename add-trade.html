@@ -38,3 +38,33 @@
             </button>
         </div>
     </nav>
+        <header class="page-header">
+        <div class="container">
+            <h1 class="page-title">Add New Trade</h1>
+            <p class="page-subtitle">Record your trading activity for analysis and improvement</p>
+        </div>
+    </header>
+    <main id="main-content" class="container">
+        <div class="form-container">
+            <div class="success-message" id="successMessage" style="display: none;">
+                <span class="icon icon-check-circle"></span>
+                <div>
+                    <h3>Trade Saved Successfully!</h3>
+                    <p>Your trade has been recorded. <a href="trades.html">View all trades</a></p>
+                </div>
+            </div>
+            <form id="tradeForm" class="trade-form">
+                <input type="hidden" id="tradeId" value="">
+                <div class="form-section">
+                    <div class="section-header">
+                        <span class="icon icon-info-circle"></span>
+                        <h2>Trade Details</h2>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="tradeDate">
+                                <span class="icon icon-calendar"></span> Trade Date *
+                            </label>
+                            <input type="date" id="tradeDate" name="tradeDate" required>
+                            <div class="error-message" id="dateError"></div>
+                        </div>
