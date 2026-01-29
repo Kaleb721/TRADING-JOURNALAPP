@@ -224,4 +224,72 @@ const StorageManager = {
             maxLosingStreak: maxLosingStreak
         };
     },
+    exportToCSV: function(trades = null) {
+        const data = trades || this.getTrades();
+        if (data.length === 0) {
+            this.showNotification('No trades to export', 'error');
+            return;
+        }
+        const headers = ['Date', 'Asset', 'Type', 'Entry', 'Exit', 'Quantity', 'Fees', 'Stop Loss', 'Take Profit', 'P&L', 'Strategy', 'Emotion'];
+        const rows = data.map(trade => {
+            const profit = this.calculateProfit(trade);
+            return [
+                trade.date,
+                trade.asset,
+                trade.type === 'long' ? 'Long' : 'Short',
+                trade.entryPrice,
+                trade.exitPrice,
+                trade.quantity,
+                trade.fees || 0,
+                trade.stopLoss || '',
+                trade.takeProfit || '',
+                profit,
+                trade.strategy || '',
+                trade.emotion || ''
+            ];
+        });
+        const csvContent = [
+            headers.join(','),
+            ...rows.map(row => row.join(','))
+        ].join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `trading-journal-${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        this.showNotification('Data exported successfully!', 'success');
+    },
+    getStatistics: function() {
+        const trades = this.getTrades();
+        const profits = trades.map(t => this.calculateProfit(t));
+        const winningTrades = profits.filter(p => p > 0);
+        const losingTrades = profits.filter(p => p < 0);
+        return {
+            totalTrades: trades.length,
+            totalProfit: profits.reduce((a, b) => a + b, 0),
+            avgProfit: trades.length > 0 ? profits.reduce((a, b) => a + b, 0) / trades.length : 0,
+            winRate: this.calculateWinRate(),
+            avgWin: winningTrades.length > 0 ? winningTrades.reduce((a, b) => a + b, 0) / winningTrades.length : 0,
+            avgLoss: losingTrades.length > 0 ? losingTrades.reduce((a, b) => a + b, 0) / losingTrades.length : 0,
+            largestWin: Math.max(...profits, 0),
+            largestLoss: Math.min(...profits, 0),
+            profitFactor: winningTrades.length > 0 && losingTrades.length > 0 ? 
+                Math.abs(winningTrades.reduce((a, b) => a + b, 0) / losingTrades.reduce((a, b) => a + b, 0)) : 0
+        };
+    },
+    backupToFile: function() {
+        const data = this.getAllData();
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `trading-journal-backup-${new Date().toISOString().split('T')[0]}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        this.showNotification('Data backed up successfully!', 'success');
+    },
 }
