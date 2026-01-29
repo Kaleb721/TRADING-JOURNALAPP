@@ -574,3 +574,119 @@ chart-card {
     font-weight: 600;
     font-size: 1.125rem;
 }
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+.stat-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-normal);
+}
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+.stat-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+.stat-header .icon {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+.stat-header h4 {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-lg);
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+}
+.btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+.btn-secondary {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+.btn-secondary:hover {
+    background: var(--border-color);
+    transform: translateY(-2px);
+}
+.btn-outline {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+.btn-outline:hover {
+    background: var(--bg-secondary);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+.btn-hero {
+    padding: var(--space-lg) var(--space-xl);
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+.btn-icon {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: var(--space-sm);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+    font-size: 1rem;
+}
+.btn-icon:hover {
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+}
+.btn-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: gap var(--transition-fast);
+}
+.btn-link:hover {
+    gap: var(--space-md);
+}
