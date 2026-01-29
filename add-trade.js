@@ -150,4 +150,63 @@ setupTheme() {
             });
         }
     }
+    handleScreenshotFiles(files) {
+        const maxFiles = 5;
+        const maxSize = 5 * 1024 * 1024; 
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        for (let i = 0; i < Math.min(files.length, maxFiles - this.screenshots.length); i++) {
+            const file = files[i];
+            if (!allowedTypes.includes(file.type)) {
+                StorageManager.showNotification(`File ${file.name} is not a supported image type`, 'error');
+                continue;
+            }
+            if (file.size > maxSize) {
+                StorageManager.showNotification(`File ${file.name} is too large (max 5MB)`, 'error');
+                continue;
+            }
+            this.compressAndAddScreenshot(file);
+        }
+    }
+    compressAndAddScreenshot(file) {
+        StorageManager.compressImage(file)
+            .then(compressedImage => {
+                this.screenshots.push({
+                    name: file.name,
+                    data: compressedImage,
+                    size: file.size,
+                    type: file.type
+                });
+                this.renderScreenshots();
+            })
+            .catch(error => {
+                StorageManager.showNotification('Error processing image', 'error');
+                console.error('Image compression error:', error);
+            });
+    }
+    renderScreenshots() {
+        const preview = document.getElementById('screenshotPreview');
+        if (!preview) return;
+        preview.innerHTML = '';
+        if (this.screenshots.length === 0) {
+            preview.innerHTML = '<p class="text-muted">No screenshots uploaded</p>';
+            return;
+        }
+        this.screenshots.forEach((screenshot, index) => {
+            const item = document.createElement('div');
+            item.className = 'screenshot-item';
+            item.innerHTML = `
+                <img src="${screenshot.data}" alt="Trade screenshot ${index + 1}">
+                <button type="button" class="screenshot-remove" data-index="${index}">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            preview.appendChild(item);
+        });
+        preview.querySelectorAll('.screenshot-remove').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const index = parseInt(e.target.closest('.screenshot-remove').dataset.index);
+                this.removeScreenshot(index);
+            });
+        });
+    }
 }
