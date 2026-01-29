@@ -65,5 +65,68 @@ class TradingApp {
         this.updateElement('totalProfit', `$${stats.totalProfit.toFixed(2)}`, 'stat-value positive');
         this.updateElement('winRate', `${stats.winRate}%`);
     }
-
+ updateElement(id, value, className = '') {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = value;
+            if (className) {
+                element.className = className;
+            }
+        }
+    }
+    updateRecentTrades() {
+        const recentTrades = StorageManager.getRecentTrades(5);
+        const container = document.getElementById('recentTradesList');
+        if (!container) return;
+        container.innerHTML = '';
+        if (recentTrades.length === 0) {
+            container.innerHTML = `
+                <div class="trade-item">
+                    <div class="trade-info">
+                        <span class="trade-symbol">No trades yet</span>
+                        <span class="trade-date">Add your first trade!</span>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+        recentTrades.forEach((trade, index) => {
+            const profit = StorageManager.calculateProfit(trade);
+            const tradeElement = document.createElement('div');
+            tradeElement.className = 'trade-item';
+            tradeElement.style.animationDelay = `${index * 0.1}s`;  
+            tradeElement.innerHTML = `
+                <div class="trade-info">
+                    <span class="trade-symbol">${trade.asset}</span>
+                    <span class="trade-date">${new Date(trade.date).toLocaleDateString()}</span>
+                </div>
+                <div class="trade-profit ${profit >= 0 ? 'positive' : 'negative'}">
+                    ${profit >= 0 ? '+' : ''}$${Math.abs(profit).toFixed(2)}
+                </div>
+            `;
+            container.appendChild(tradeElement);
+        });
+    }
+    updateStats() {
+        const stats = StorageManager.getStatistics();
+        const consecutiveStats = StorageManager.getConsecutiveStats();
+        const trades = StorageManager.getTrades();
+        let riskScore = '-';
+        const tradesWithStops = trades.filter(t => t.stopLoss).length;
+        if (trades.length > 0) {
+            const score = Math.round((tradesWithStops / trades.length) * 100);
+            riskScore = `${score}/100`;
+        }
+        let psychologyScore = '-';
+        const emotions = trades.filter(t => t.emotion).map(t => t.emotion);
+        if (emotions.length > 0) {
+            const positiveEmotions = emotions.filter(e => ['confident', 'neutral'].includes(e)).length;
+            const score = Math.round((positiveEmotions / emotions.length) * 100);
+            psychologyScore = `${score}/100`;
+        }
+        this.updateElement('currentStreak', 
+            `${consecutiveStats.currentStreak} ${consecutiveStats.currentStreakType === 'win' ? 'wins' : 'losses'}`);
+        this.updateElement('riskScore', riskScore);
+        this.updateElement('psychologyScore', psychologyScore);
+    }
 }
