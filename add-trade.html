@@ -68,3 +68,73 @@
                             <input type="date" id="tradeDate" name="tradeDate" required>
                             <div class="error-message" id="dateError"></div>
                         </div>
+                          <div class="form-group">
+                            <label for="asset">
+                                <span class="icon icon-chart-line"></span> Asset/Symbol *
+                            </label>
+                            <input type="text" id="asset" name="asset" placeholder="AAPL, BTC, etc." required>
+                            <div class="error-message" id="assetError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tradeType">
+                                <span class="icon icon-exchange-alt"></span> Trade Type *
+                            </label>
+                            <select id="tradeType" name="tradeType" required>
+                                <option value="">Select type</option>
+                                <option value="long">Long (Buy)</option>
+                                <option value="short">Short (Sell)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="quantity">
+                                <span class="icon icon-boxes"></span> Quantity *
+                            </label>
+                            <input type="number" id="quantity" name="quantity" min="0.001" step="0.001" required>
+                            <div class="error-message" id="quantityError"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <div class="section-header">
+                        <span class="icon icon-wallet"></span>
+                        <h2>Price Information</h2>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="entryPrice">
+                                <span class="icon icon-arrow-down"></span> Entry Price *
+                            </label>
+                            <input type="number" id="entryPrice" name="entryPrice" min="0" step="0.01" required>
+                            <div class="error-message" id="entryError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="exitPrice">
+                                <span class="icon icon-arrow-up"></span> Exit Price *
+                            </label>
+                            <input type="number" id="exitPrice" name="exitPrice" min="0" step="0.01" required>
+                            <div class="error-message" id="exitError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="stopLoss">
+                                <span class="icon icon-shield"></span> Stop Loss
+                            </label>
+                            <input type="number" id="stopLoss" name="stopLoss" min="0" step="0.01">
+                            <small>Optional - Risk management</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="takeProfit">
+                                <span class="icon icon-bullseye"></span> Take Profit
+                            </label>
+                            <input type="number" id="takeProfit" name="takeProfit" min="0" step="0.01">
+                            <small>Optional - Profit target</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="fees">
+                                <span class="icon icon-receipt"></span> Fees/Commission
+                            </label>
+                            <input type="number" id="fees" name="fees" min="0" step="0.01" value="0">
+                        </div>
+                    </div>
+                </div>
