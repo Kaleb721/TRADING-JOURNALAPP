@@ -292,4 +292,75 @@ const StorageManager = {
         URL.revokeObjectURL(url);
         this.showNotification('Data backed up successfully!', 'success');
     },
-}
+     restoreFromFile: function(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    this.saveAllData(data);
+                    resolve(true);
+                } catch (error) {
+                    reject(error);
+                }
+            };
+            reader.readAsText(file);
+        });
+    },
+    showNotification: function(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `
+            <span class="icon icon-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></span>
+            <span>${message}</span>
+        `;
+        document.body.appendChild(notification);
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    },
+    compressImage: function(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function(event) {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 800;
+                    const MAX_HEIGHT = 600;
+                    let width = img.width;
+                    let height = img.height;
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    canvas.toBlob((blob) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(blob);
+                        reader.onload = function() {
+                            resolve(reader.result);
+                        };
+                    }, 'image/jpeg', 0.7);
+                };
+            };
+            reader.onerror = reject;
+        });
+    }
+};
+document.addEventListener('DOMContentLoaded', function() {
+    StorageManager.init();
+});
