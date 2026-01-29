@@ -767,3 +767,109 @@ chart-card {
     margin-top: var(--space-xs);
     min-height: 1.25rem;
 }
+.screenshot-upload {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+.upload-area {
+    border: 3px dashed var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2xl) var(--space-xl);
+    text-align: center;
+    background: var(--bg-secondary);
+    transition: all var(--transition-normal);
+    cursor: pointer;
+}
+.upload-area:hover {
+    border-color: var(--primary-color);
+    background: var(--bg-primary);
+}
+.upload-area .icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: var(--space-lg);
+}
+.upload-area h3 {
+    margin-bottom: var(--space-sm);
+}
+.upload-area p {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+}
+.upload-hint {
+    font-size: 0.875rem;
+    color: var(--text-muted) !important;
+    margin-bottom: var(--space-lg) !important;
+}
+.screenshot-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--space-md);
+}
+.screenshot-item {
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+.screenshot-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    display: block;
+}
+.screenshot-remove {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    background: rgba(247, 37, 133, 0.9);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    transition: all var(--transition-fast);
+}
+.screenshot-remove:hover {
+    background: var(--danger-color);
+    transform: scale(1.1);
+}
+.screenshot-notes {
+    margin-top: var(--space-lg);
+}
+.screenshot-notes label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+    font-weight: 500;
+    color: var(--text-primary);
+}
+.screenshot-notes label .icon {
+    color: var(--primary-color);
+}
+.screenshot-notes textarea {
+    width: 100%;
+    padding: var(--space-md);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all var(--transition-fast);
+    resize: vertical;
+    min-height: 100px;
+}
+.screenshot-notes textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+    background: var(--bg-primary);
+}
