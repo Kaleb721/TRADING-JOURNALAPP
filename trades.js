@@ -290,5 +290,89 @@ setupEventListeners() {
         document.body.appendChild(modal);
         this.setupImageModal();
     }
+setupImageModal() {
+        const modal = document.getElementById('imageModal');
+        if (!modal) return;
+        const closeBtn = modal.querySelector('.modal-close');
+        const overlay = modal.querySelector('.modal-overlay');
+        
+        const closeModal = () => {
+            modal.classList.add('fade-out');
+            setTimeout(() => {
+                modal.remove();
+            }, 300);
+        };
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+        if (overlay) overlay.addEventListener('click', closeModal);
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') closeModal();
+        };
+        document.addEventListener('keydown', handleEscape);
+        let currentImageIndex = 0;
+        const images = modal.querySelectorAll('.modal-image-item');
+        const prevBtn = modal.querySelector('.modal-prev');
+        const nextBtn = modal.querySelector('.modal-next');
+        const counter = modal.querySelector('.image-counter');
+        const updateImageDisplay = () => {
+            images.forEach((img, index) => {
+                img.style.display = index === currentImageIndex ? 'block' : 'none';
+            });
+            if (counter) {
+                counter.textContent = `${currentImageIndex + 1} / ${images.length}`;
+            }
+            if (prevBtn) prevBtn.disabled = currentImageIndex === 0;
+            if (nextBtn) nextBtn.disabled = currentImageIndex === images.length - 1;
+        };
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                if (currentImageIndex > 0) {
+                    currentImageIndex--;
+                    updateImageDisplay();
+                }
+            });
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                if (currentImageIndex < images.length - 1) {
+                    currentImageIndex++;
+                    updateImageDisplay();
+                }
+            });
+        }
+        updateImageDisplay();
+        modal.dataset.escapeHandler = handleEscape;
+    }
+    applyFilters() {
+        const allTrades = StorageManager.getTrades();
+        let filtered = [...allTrades];
+        const assetFilter = document.getElementById('filterAsset');
+        if (assetFilter && assetFilter.value !== 'all') {
+            filtered = filtered.filter(trade => trade.asset === assetFilter.value);
+        }
+        const statusFilter = document.getElementById('filterStatus');
+        if (statusFilter && statusFilter.value !== 'all') {
+            filtered = filtered.filter(trade => {
+                const profit = StorageManager.calculateProfit(trade);
+                return statusFilter.value === 'win' ? profit > 0 : profit < 0;
+            });
+        }
+        const typeFilter = document.getElementById('filterType');
+        if (typeFilter && typeFilter.value !== 'all') {
+            filtered = filtered.filter(trade => trade.type === typeFilter.value);
+        }
+        const dateFrom = document.getElementById('filterDateFrom');
+        const dateTo = document.getElementById('filterDateTo');
+        if (dateFrom && dateFrom.value) {
+            filtered = filtered.filter(trade => trade.date >= dateFrom.value);
+        }
+        if (dateTo && dateTo.value) {
+            filtered = filtered.filter(trade => trade.date <= dateTo.value);
+        }
+        this.filteredTrades = filtered.reverse();
+        this.currentPage = 1;
+        this.renderTable();
+        this.updateStats();
+    }
+
 }
 
