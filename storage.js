@@ -185,4 +185,43 @@ const StorageManager = {
         const assets = [...new Set(trades.map(t => t.asset))];
         return assets.sort();
     },
+    getBestTrade: function() {
+        const trades = this.getTrades();
+        if (trades.length === 0) return null; 
+        return trades.reduce((best, trade) => {
+            const profit = this.calculateProfit(trade);
+            const bestProfit = this.calculateProfit(best);
+            return profit > bestProfit ? trade : best;
+        });
+    },
+    getConsecutiveStats: function() {
+        const trades = this.getTrades().sort((a, b) => new Date(a.date) - new Date(b.date));  
+        let currentStreak = 0;
+        let maxWinningStreak = 0;
+        let maxLosingStreak = 0;
+        let currentType = null;
+        let lastProfitType = null;
+        trades.forEach(trade => {
+            const profit = this.calculateProfit(trade);
+            const type = profit > 0 ? 'win' : 'loss'; 
+            if (type === currentType) {
+                currentStreak++;
+            } else {
+                currentStreak = 1;
+                currentType = type;
+            }
+            if (type === 'win') {
+                maxWinningStreak = Math.max(maxWinningStreak, currentStreak);
+            } else {
+                maxLosingStreak = Math.max(maxLosingStreak, currentStreak);
+            }
+            lastProfitType = type;
+        });
+        return {
+            currentStreak: currentStreak,
+            currentStreakType: lastProfitType,
+            maxWinningStreak: maxWinningStreak,
+            maxLosingStreak: maxLosingStreak
+        };
+    },
 }
