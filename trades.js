@@ -142,5 +142,39 @@ row.innerHTML = `
         });
         this.updatePagination();
     }
+   updatePagination() {
+        const totalPages = Math.ceil(this.filteredTrades.length / this.tradesPerPage);
+        const prevBtn = document.getElementById('prevPage');
+        const nextBtn = document.getElementById('nextPage');
+        const pageInfo = document.getElementById('pageInfo');
+        if (pageInfo) {
+            pageInfo.textContent = `Page ${this.currentPage} of ${totalPages}`;
+        }
+        if (prevBtn) prevBtn.disabled = this.currentPage <= 1;
+        if (nextBtn) nextBtn.disabled = this.currentPage >= totalPages;
+    }
+    updateStats() {
+        const totalProfit = this.filteredTrades.reduce((sum, trade) => {
+            return sum + StorageManager.calculateProfit(trade);
+        }, 0);
+        const winningTrades = this.filteredTrades.filter(trade => {
+            return StorageManager.calculateProfit(trade) > 0;
+        }).length;
+        const winRate = this.filteredTrades.length > 0 
+            ? Math.round((winningTrades / this.filteredTrades.length) * 100) 
+            : 0;
+        const avgProfit = this.filteredTrades.length > 0
+            ? totalProfit / this.filteredTrades.length
+            : 0;
+        this.updateElement('filteredProfit', `$${totalProfit.toFixed(2)}`);
+        this.updateElement('filteredWinRate', `${winRate}%`);
+        this.updateElement('filteredTrades', this.filteredTrades.length);
+        this.updateElement('avgFilteredProfit', `$${avgProfit.toFixed(2)}`);
+        this.updateElement('tradeCount', `${this.filteredTrades.length} trades`);
+    }
+    updateElement(id, value) {
+        const element = document.getElementById(id);
+        if (element) element.textContent = value;
+    } 
 }
 
