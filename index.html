@@ -39,3 +39,70 @@
             </button>
         </div>
     </nav>
+     <header class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Track. Analyze. Improve.</h1>
+                <p class="hero-subtitle">Your ultimate trading companion for better decisions and consistent profits.</p>
+                <a href="add-trade.html" class="btn btn-primary btn-hero">
+                    <span class="icon icon-plus-circle"></span> Add New Trade
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-badge">
+                    <span class="stat-value" id="totalTrades">0</span>
+                    <span class="stat-label">Total Trades</span>
+                </div>
+                <div class="stat-badge">
+                    <span class="stat-value positive" id="totalProfit">$0</span>
+                    <span class="stat-label">Total Profit</span>
+                </div>
+                <div class="stat-badge">
+                    <span class="stat-value" id="winRate">0%</span>
+                    <span class="stat-label">Win Rate</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main id="main-content" class="container">
+        <section class="section">
+            <h2 class="section-title">Performance Overview</h2>
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <span class="icon icon-wallet"></span>
+                    </div>
+                    <div class="summary-content">
+                        <h3>Total P&L</h3>
+                        <div class="summary-value positive" id="totalPL">$0.00</div>
+                        <div class="summary-trend">
+                            <span class="icon icon-arrow-up"></span>
+                            <span>All time performance</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <span class="icon icon-trophy"></span>
+                    </div>
+                    <div class="summary-content">
+                        <h3>Win Rate</h3>
+                        <div class="summary-value" id="dashboardWinRate">0%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="winRateProgress"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <span class="icon icon-balance-scale"></span>
+                    </div>
+                    <div class="summary-content">
+                        <h3>Avg Risk/Reward</h3>
+                        <div class="summary-value" id="avgRiskReward">1:0</div>
+                        <div class="risk-reward-visual">
+                            <div class="risk-bar">Risk</div>
+                            <div class="reward-bar">Reward</div>
+                        </div>
+                    </div>
+                </div>
