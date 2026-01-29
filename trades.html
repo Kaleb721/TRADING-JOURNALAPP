@@ -136,3 +136,55 @@
                     </div>
                 </div>
             </div>
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">
+                    <span class="icon icon-chart-line"></span>
+                </div>
+                <h3>No trades found</h3>
+                <p>Start by adding your first trade!</p>
+                <a href="add-trade.html" class="btn btn-primary">
+                    <span class="icon icon-plus-circle"></span> Add Your First Trade
+                </a>
+            </div>
+        </section>
+        <section class="section">
+            <div class="summary-stats">
+                <div class="summary-stat">
+                    <div class="stat-icon">
+                        <span class="icon icon-chart-bar"></span>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="filteredProfit">$0.00</div>
+                        <div class="stat-label">Filtered P&L</div>
+                    </div>
+                </div>
+                <div class="summary-stat">
+                    <div class="stat-icon">
+                        <span class="icon icon-percentage"></span>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="filteredWinRate">0%</div>
+                        <div class="stat-label">Filtered Win Rate</div>
+                    </div>
+                </div>
+                <div class="summary-stat">
+                    <div class="stat-icon">
+                        <span class="icon icon-exchange-alt"></span>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="filteredTrades">0</div>
+                        <div class="stat-label">Trades Found</div>
+                    </div>
+                </div>
+                <div class="summary-stat">
+                    <div class="stat-icon">
+                        <span class="icon icon-clock"></span>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="avgFilteredProfit">$0.00</div>
+                        <div class="stat-label">Avg Profit/Trade</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
