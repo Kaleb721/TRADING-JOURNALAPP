@@ -873,3 +873,65 @@ chart-card {
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
     background: var(--bg-primary);
 }
+.profit-preview {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    text-align: center;
+}
+.profit-result {
+    margin-bottom: var(--space-lg);
+}
+.profit-label {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+}
+.profit-value {
+    font-size: 3rem;
+    font-weight: 700;
+}
+.profit-details {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-xl);
+    flex-wrap: wrap;
+}
+.profit-detail {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+.profit-detail span:first-child {
+    font-weight: 500;
+}
+.form-actions {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: flex-end;
+    margin-top: var(--space-xl);
+}
+.success-message {
+    background: var(--gradient-success);
+    color: white;
+    padding: var(--space-lg);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+    animation: slideDown 0.3s ease;
+}
+.success-message .icon {
+    font-size: 2rem;
+}
+.success-message h3 {
+    color: white;
+    margin-bottom: var(--space-xs);
+}
+.success-message a {
+    color: white;
+    text-decoration: underline;
+}
