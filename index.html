@@ -106,3 +106,50 @@
                         </div>
                     </div>
                 </div>
+                   <div class="summary-card">
+                    <div class="summary-icon">
+                        <span class="icon icon-chart-line"></span>
+                    </div>
+                    <div class="summary-content">
+                        <h3>Best Trade</h3>
+                        <div class="summary-value positive" id="bestTrade">$0.00</div>
+                        <div class="summary-meta" id="bestTradeMeta">-</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section">
+            <div class="two-column">
+                <div class="chart-card">
+                    <div class="card-header">
+                        <div>
+                            <h3><span class="icon icon-chart-line"></span> Performance Overview</h3>
+                            <div class="chart-subtitle" id="chartSubtitle">Cumulative Profit/Loss</div>
+                        </div>
+                        <div class="chart-controls">
+                            <select id="chartPeriod" class="chart-select">
+                                <option value="7D">7 Days</option>
+                                <option value="1M" selected>1 Month</option>
+                                <option value="3M">3 Months</option>
+                                <option value="1Y">1 Year</option>
+                                <option value="ALL">All Time</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="performanceChart"></canvas>
+                        <div class="chart-tooltip" id="chartTooltip" style="display: none;"></div>
+                    </div>
+                </div>
+                <div class="trades-card">
+                    <div class="card-header">
+                        <h3><span class="icon icon-history"></span> Recent Trades</h3>
+                        <a href="trades.html" class="btn-link">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="trades-list" id="recentTradesList">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
