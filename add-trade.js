@@ -88,4 +88,66 @@ setupTheme() {
         }
         this.calculateProfit();
     }
+    setValue(id, value) {
+        const element = document.getElementById(id);
+        if (element) element.value = value;
+    }
+    setDefaultDate() {
+        if (!this.isEditMode) {
+            const today = new Date().toISOString().split('T')[0];
+            const dateInput = document.getElementById('tradeDate');
+            if (dateInput) {
+                dateInput.value = today;
+                dateInput.max = today;
+            }
+        }
+    }
+    setupEventListeners() {
+        const form = document.getElementById('tradeForm');
+        if (form) {
+            form.addEventListener('submit', (e) => this.handleSubmit(e));
+        }
+        ['entryPrice', 'exitPrice', 'quantity', 'fees', 'takeProfit'].forEach(field => {
+            const input = document.getElementById(field);
+            if (input) {
+                input.addEventListener('input', () => {
+                    this.calculateProfit();
+                    this.calculatePositionSize();
+                });
+            }
+        });
+    }    
+    setupScreenshotUpload() {
+        const uploadArea = document.getElementById('uploadArea');
+        const browseBtn = document.getElementById('browseBtn');
+        const fileInput = document.getElementById('screenshotInput');
+        if (uploadArea && browseBtn && fileInput) {
+            browseBtn.addEventListener('click', () => {
+                fileInput.click();
+            });
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = 'var(--primary-color)';
+                uploadArea.style.background = 'var(--bg-primary)';
+            });
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.borderColor = 'var(--border-color)';
+                uploadArea.style.background = 'var(--bg-secondary)';
+            });   
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = 'var(--border-color)';
+                uploadArea.style.background = 'var(--bg-secondary)';    
+                const files = e.dataTransfer.files;
+                this.handleScreenshotFiles(files);
+            });
+            fileInput.addEventListener('change', (e) => {
+                this.handleScreenshotFiles(e.target.files);
+                e.target.value = '';
+            });
+        }
+    }
 }
