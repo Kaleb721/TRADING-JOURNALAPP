@@ -38,3 +38,59 @@
             </button>
         </div>
     </nav>
+      <header class="page-header">
+        <div class="container">
+            <h1 class="page-title">Trade History</h1>
+            <p class="page-subtitle">View, filter, and analyze all your recorded trades</p>
+        </div>
+    </header>
+    <main id="main-content" class="container">
+        <section class="section">
+            <div class="filter-card">
+                <div class="filter-header">
+                    <h3><span class="icon icon-filter"></span> Filter Trades</h3>
+                    <button class="btn btn-secondary" id="clearFilters">
+                        Clear All
+                    </button>
+                </div>
+                <div class="filter-body">
+                    <div class="filter-grid">
+                        <div class="filter-group">
+                            <label for="filterDateFrom">Date Range</label>
+                            <div class="date-range">
+                                <input type="date" id="filterDateFrom" class="date-input" placeholder="From Date">
+                                <span class="date-separator">to</span>
+                                <input type="date" id="filterDateTo" class="date-input" placeholder="To Date">
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label for="filterAsset">Asset</label>
+                            <select id="filterAsset" class="filter-select">
+                                <option value="all">All Assets</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="filterStatus">Status</label>
+                            <select id="filterStatus" class="filter-select">
+                                <option value="all">All Trades</option>
+                                <option value="win">Winning Trades</option>
+                                <option value="loss">Losing Trades</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="filterType">Trade Type</label>
+                            <select id="filterType" class="filter-select">
+                                <option value="all">All Types</option>
+                                <option value="long">Long</option>
+                                <option value="short">Short</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-actions">
+                        <button class="btn btn-primary" id="applyFilters">
+                            <span class="icon icon-search"></span> Apply Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
