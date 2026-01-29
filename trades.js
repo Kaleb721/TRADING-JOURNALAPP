@@ -176,5 +176,44 @@ row.innerHTML = `
         const element = document.getElementById(id);
         if (element) element.textContent = value;
     } 
+setupEventListeners() {
+    this.setupClickListener('prevPage', () => {
+        if (this.currentPage > 1) {
+            this.currentPage--;
+            this.renderTable();
+        }
+    });
+    this.setupClickListener('nextPage', () => {
+        const totalPages = Math.ceil(this.filteredTrades.length / this.tradesPerPage);
+        if (this.currentPage < totalPages) {
+            this.currentPage++;
+            this.renderTable();
+        }
+    });
+    this.setupClickListener('exportPDF', () => {
+        this.exportToCSV();  
+    });
+    this.setupClickListener('applyFilters', () => {
+        this.applyFilters();
+    });
+    this.setupClickListener('clearFilters', () => {
+        this.clearFilters();
+    });
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.edit-trade')) {
+            const tradeId = parseInt(e.target.closest('.edit-trade').dataset.id);
+            this.editTrade(tradeId);
+        }
+        if (e.target.closest('.delete-trade')) {
+            const tradeId = parseInt(e.target.closest('.delete-trade').dataset.id);
+            this.deleteTrade(tradeId);
+        }
+        if (e.target.closest('.view-images')) {
+            const tradeId = parseInt(e.target.closest('.view-images').dataset.id);
+            this.viewTradeImages(tradeId);
+        }
+    });
+}
+    
 }
 
