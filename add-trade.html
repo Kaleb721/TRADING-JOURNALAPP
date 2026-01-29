@@ -138,3 +138,77 @@
                         </div>
                     </div>
                 </div>
+                     <div class="form-section">
+                    <div class="section-header">
+                        <span class="icon icon-camera"></span>
+                        <h2>Trade Screenshots</h2>
+                    </div>
+                    <div class="screenshot-upload">
+                        <div class="upload-area" id="uploadArea">
+                            <span class="icon icon-cloud-upload-alt"></span>
+                            <h3>Upload Trade Screenshots</h3>
+                            <p>Drag & drop screenshots or click to browse</p>
+                            <p class="upload-hint">Supported formats: JPG, PNG, GIF (Max 5MB each)</p>
+                            <input type="file" id="screenshotInput" accept="image/*" multiple style="display: none;">
+                            <button type="button" class="btn btn-secondary" id="browseBtn">
+                                <span class="icon icon-folder-open"></span> Browse Files
+                            </button>
+                        </div>
+                        <div class="screenshot-preview" id="screenshotPreview">
+                        </div>
+                        <div class="screenshot-notes">
+                            <label for="screenshotNotes">
+                                <span class="icon icon-sticky-note"></span> Screenshot Notes
+                            </label>
+                            <textarea id="screenshotNotes" name="screenshotNotes" rows="2" 
+                                      placeholder="Notes about your screenshots (optional)"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <div class="section-header">
+                        <span class="icon icon-brain"></span>
+                        <h2>Strategy & Psychology</h2>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="strategy">
+                                <span class="icon icon-chess"></span> Trading Strategy
+                            </label>
+                            <select id="strategy" name="strategy">
+                                <option value="">Select strategy</option>
+                                <option value="swing">Swing Trading</option>
+                                <option value="day">Day Trading</option>
+                                <option value="scalp">Scalping</option>
+                                <option value="position">Position Trading</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="emotion">
+                                <span class="icon icon-smile"></span> Emotional State
+                            </label>
+                            <select id="emotion" name="emotion">
+                                <option value="">How did you feel?</option>
+                                <option value="confident">Confident</option>
+                                <option value="neutral">Neutral</option>
+                                <option value="anxious">Anxious</option>
+                                <option value="fearful">Fearful</option>
+                                <option value="greedy">Greedy</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="setup">
+                            <span class="icon icon-lightbulb"></span> Trade Setup / Rationale
+                        </label>
+                        <textarea id="setup" name="setup" rows="3" placeholder="Why did you take this trade? What was your reasoning?"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">
+                            <span class="icon icon-sticky-note"></span> Notes / Lessons Learned
+                        </label>
+                        <textarea id="notes" name="notes" rows="3" placeholder="What worked well? What would you do differently next time?"></textarea>
+                    </div>
+                </div>
