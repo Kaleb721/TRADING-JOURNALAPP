@@ -236,4 +236,81 @@ class TradingApp {
             console.error('Error creating chart:', error);
         }
     }
+    getChartDataForPeriod(period) {
+        const trades = StorageManager.getTrades();
+        if (trades.length === 0) {
+            return {
+                dates: [],
+                values: [],
+                rawData: []
+            };
+        }
+        const sortedTrades = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
+        let cumulativeProfit = 0;
+        const cumulativeData = sortedTrades.map(trade => {
+            const profit = StorageManager.calculateProfit(trade);
+            cumulativeProfit += profit;
+            return {
+                date: trade.date,
+                profit: profit,
+                cumulative: cumulativeProfit
+            };
+        });
+        let filteredData = [...cumulativeData];
+        const now = new Date();
+        switch(period) {
+            case '7D':
+                const weekAgo = new Date(now);
+                weekAgo.setDate(now.getDate() - 7);
+                filteredData = cumulativeData.filter(d => new Date(d.date) >= weekAgo);
+                break;
+            case '1M':
+                const monthAgo = new Date(now);
+                monthAgo.setMonth(now.getMonth() - 1);
+                filteredData = cumulativeData.filter(d => new Date(d.date) >= monthAgo);
+                break;
+            case '3M':
+                const threeMonthsAgo = new Date(now);
+                threeMonthsAgo.setMonth(now.getMonth() - 3);
+                filteredData = cumulativeData.filter(d => new Date(d.date) >= threeMonthsAgo);
+                break;
+            case '1Y':
+                const yearAgo = new Date(now);
+                yearAgo.setFullYear(now.getFullYear() - 1);
+                filteredData = cumulativeData.filter(d => new Date(d.date) >= yearAgo);
+                break;
+        }
+        if (filteredData.length === 0 && cumulativeData.length > 0) {
+            filteredData = cumulativeData.slice(-30); 
+        }
+        if (filteredData.length > 0) {
+            const firstDate = new Date(filteredData[0].date);
+            firstDate.setDate(firstDate.getDate() - 1);         
+            filteredData.unshift({
+                date: firstDate.toISOString().split('T')[0],
+                profit: 0,
+                cumulative: 0
+            });
+        }
+        const dates = filteredData.map(d => {
+            const date = new Date(d.date);
+            switch(period) {
+                case '7D':
+                    return date.toLocaleDateString('en-US', { weekday: 'short' });
+                case '1M':
+                case '3M':
+                    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                case '1Y':
+                    return date.toLocaleDateString('en-US', { month: 'short' });
+                default:
+                    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            }
+        });
+        const values = filteredData.map(d => d.cumulative);
+        return {
+            dates: dates,
+            values: values,
+            rawData: filteredData
+        };
+    }
 }
