@@ -46,14 +46,7 @@ class TradingApp {
         if (winRateProgress) {
             winRateProgress.style.width = `${stats.winRate}%`;
         }
-        const avgRiskReward = StorageManager.calculateAvgRiskReward();
-        this.updateElement('avgRiskReward', `1:${avgRiskReward.toFixed(1)}`);
-        const riskBar = document.querySelector('.risk-bar');
-        const rewardBar = document.querySelector('.reward-bar');
-        if (riskBar && rewardBar) {
-            riskBar.style.flex = '1';
-            rewardBar.style.flex = avgRiskReward.toFixed(1);
-        }
+       
         const bestTrade = StorageManager.getBestTrade();
         if (bestTrade) {
             const profit = StorageManager.calculateProfit(bestTrade);
